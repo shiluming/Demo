@@ -11,6 +11,7 @@
     <modules>
         <module>commoncore</module>
         <module>bootstrapcore</module>
+        <module>algorithms</module>
     </modules>
 
 
