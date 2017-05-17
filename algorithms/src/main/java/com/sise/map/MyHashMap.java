@@ -5,6 +5,8 @@ import java.util.HashMap;
 
 /**
  * MyHashMap
+ * 数组下标采用：除数留余发
+ * 哈希冲突采用：线性探查法
  * Created by rola on 2017/5/17.
  */
 public class MyHashMap<Key,Value> implements Serializable{
@@ -18,7 +20,7 @@ public class MyHashMap<Key,Value> implements Serializable{
     private Entry<Key,Value>[] table;
 
     public MyHashMap() {
-        table = (Entry<Key,Value>[]) new Entry[DEFAULT_SIZE];
+        table = new Entry[DEFAULT_SIZE];
         p = DEFAULT_SIZE;
     }
 
@@ -29,8 +31,7 @@ public class MyHashMap<Key,Value> implements Serializable{
         for(int i=0;i<10;i++) {
             myHashMap.put(String.valueOf(i),i);
         }
-        System.out.println(myHashMap.get("1"));
-        System.out.println(myHashMap.get("11"));
+        System.out.println(String.valueOf(myHashMap.get("1")));
     }
 
     /**
@@ -40,19 +41,22 @@ public class MyHashMap<Key,Value> implements Serializable{
      */
     public void put(Key key,Value value) {
         int index = key.hashCode() % p;
-        if(table[index].key == null ) {
-            table[index].key = key;
-            table[index].value = value;
-            table[index].count = 1;
+        Entry entry = new Entry();
+        if(table[index] == null || table[index].key == null) {
+            entry.key = key;
+            entry.value = value;
+            entry.count = 1;
+            table[index] = entry;
         } else {
             int i = 1;
             do{
                 index = (index + 1) % p;
                 i++;
             }while(table[index].key != null && table[index].key != key);
-            table[index].key = key;
-            table[index].value = value;
-            table[index].count = i;
+            entry.count = i;
+            entry.key = key;
+            entry.value = value;
+            table[index] = entry;
         }
         size++;
     }
@@ -64,7 +68,7 @@ public class MyHashMap<Key,Value> implements Serializable{
      */
     public Value get(Key key) {
         int index = searchHT(table,p,key);
-        return index > 0 ? (Value) table[index] : null;
+        return index > 0 ? (Value) table[index].value : null;
     }
 
     /**
@@ -82,7 +86,7 @@ public class MyHashMap<Key,Value> implements Serializable{
         index = key.hashCode() % p;
         //这里不会陷入死循环吗 ？
         //由于采用的是 除留余数法，所以一定能够找到下标的
-        while(table[index].key != null && table[index] != key) {
+        while(table[index].key != null && !key.equals(table[index].key)) {
             i++;
             index = (index + 1) % p;
         }
