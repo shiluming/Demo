@@ -3,6 +3,7 @@ package com.sise.bit;
 import org.junit.Test;
 
 /**
+ * 位运算的简单操作
  * Created by rola on 2017/6/7.
  */
 public class AppTest {
@@ -58,5 +59,8 @@ public class AppTest {
         int resultB = b >> 31 == 0 ? (b >> 31) : (~(b >> 31)) + 1;
         System.out.println("a = " + resultA + " b = " + resultB);
     }
+
+
+
 
 }
