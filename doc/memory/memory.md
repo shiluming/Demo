@@ -37,6 +37,17 @@
 
 ### synchronized 的两项功能  
 
+- 当线程进入 synchronized 时，该线程所拥有的工作存储器的内容会被“清除“，
+1.1 强制写入主存储器  
+1.2 工作存储器的释放，之后的值都将从工作存储器中拷贝  
+- 当线程欲退出 synchronized 时，会将内容写入到主存储器中  
+
+
+### volatile 的两项功能  
+- 进行内存的同步  
+- 以 atomic 的方式来进行 long double 的指定  
+
+### double check locking pattern 的危险性  
 
 
 
